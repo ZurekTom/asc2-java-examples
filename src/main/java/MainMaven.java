@@ -1,4 +1,4 @@
-package example_package;
+package asl_compiler;
 
 import infrastructure.AgentRequest;
 import infrastructure.AgentRequestMessage;
