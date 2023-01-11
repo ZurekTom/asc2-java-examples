@@ -1,5 +1,3 @@
-package asl_compiler;
-
 import infrastructure.AgentRequest;
 import infrastructure.AgentRequestMessage;
 import infrastructure.MAS;
@@ -19,8 +17,8 @@ public class MainMaven {
         system.tell(
                 AgentRequestMessage.apply(
                         toSeq(List.of(
-                                        new AgentRequest(asl_compiler.piinger_companion.create(), "pinger", 1),
-                                        new AgentRequest(asl_compiler.poonger_companion.create(), "ponger", 1)
+                                        new AgentRequest(asl.pinger_companion.create(), "pinger", 1),
+                                        new AgentRequest(asl.ponger_companion.create(), "ponger", 1)
                                 )
                         ),
                         system

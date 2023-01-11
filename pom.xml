@@ -11,18 +11,45 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <asc2.source-directory>src/main/asl</asc2.source-directory>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.mostafamohajeri</groupId>
             <artifactId>agentscript-grounds_2.13</artifactId>
-            <version>0.46</version>
+            <version>0.47</version>
         </dependency>
         <dependency>
             <groupId>io.github.mostafamohajeri</groupId>
             <artifactId>agentscript-commons_2.13</artifactId>
-            <version>0.46</version>
+            <version>0.47</version>
         </dependency>
     </dependencies>
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>net.alchim31.maven</groupId>
+            <artifactId>scala-maven-plugin</artifactId>
+            <version>4.8.0</version>
+        </plugin>
+
+    <plugin>
+        <groupId>io.github.mostafamohajeri</groupId>
+        <artifactId>scriptcc-maven-plugin</artifactId>
+        <version>1.4.4</version>
+        <configuration>
+            <sourceDirectory>${asc2.source-directory}</sourceDirectory>
+        </configuration>
+        <executions>
+            <execution>
+                <phase>generate-sources</phase>
+                <goals>
+                    <goal>scriptcc</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+    </plugins>
+    </build>
 </project>

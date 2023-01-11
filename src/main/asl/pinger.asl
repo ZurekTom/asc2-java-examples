@@ -1,8 +1,9 @@
 !init.
 
 +!init =>
-    #println(Self + ": pinging " + "ponger");
-    #coms.inform("ponger",ping).
+    PongerAgentName = "ponger";
+    #println(Self + ": pinging " + PongerAgentName);
+    #coms.inform(PongerAgentName, ping).
 
 +pong => #println(Self + ": ponged by " + Source).
 
