@@ -38,8 +38,8 @@ package asl
             case SubGoalMessage(_,_,r) =>
                message.goal match {
 
-                   case ponger.this.adopt_belief_ping_0 =>
-                     ponger.this.adopt_belief_ping_0.execute(message.params.asInstanceOf[Parameters])
+                   case ponger.this.adopt_test_at_1 =>
+                     ponger.this.adopt_test_at_1.execute(message.params.asInstanceOf[Parameters])
 
 
            case _ =>
@@ -71,6 +71,8 @@ package asl
          )
 
          def initBeliefs()(implicit executionContext: ExecutionContext) = List[StructTerm](
+                     StructTerm("location",Seq[GenericTerm](StringTerm("building_Y")))
+
 
          )
 
@@ -237,17 +239,17 @@ package asl
                 }
 
         override def create_belief_message(t: StructTerm, ref: IMessageSource) (implicit executionContext: ExecutionContext): Option[SubGoalMessage] = {
-                                   if(t.matchOnlyFunctorAndArity("ping",0)) {
-                                     val args: Parameters = Parameters(t.terms.toList)
-                                     Option(SubGoalMessage(adopt_belief_ping_0, args, ref))
-                                   } else   {
+                    {
                     Option.empty[SubGoalMessage]
                     }
 
                 }
 
          override def create_test_message(t: StructTerm, ref: IMessageSource) (implicit executionContext: ExecutionContext): Option[SubGoalMessage] = {
-                            {
+                                                   if(t.matchOnlyFunctorAndArity("at",1)) {
+                                                     val args: Parameters = Parameters(t.terms.toList)
+                                                     Option(SubGoalMessage(adopt_test_at_1, args, ref))
+                                                   } else   {
                             Option.empty[SubGoalMessage]
                             }
                         }
@@ -262,7 +264,7 @@ package asl
         }
 
 
-      object adopt_belief_ping_0 extends IGoal {
+      object adopt_test_at_1 extends IGoal {
 
         def execute(params: Parameters) (implicit executionContext: ExecutionContext) : Unit = {
          var vars = VarMap()
@@ -282,8 +284,19 @@ package asl
                          vars("Self").bind_to(StringTerm(executionContext.name))
                          vars("Source").bind_to(StringTerm(executionContext.src.name))
                          vars("Parent").bind_to(StringTerm(executionContext.parent.name))
+                         vars +=(   "X" -> params.l_params(0))
+
+                         val r0 = executionContext.beliefBase.query(StructTerm("location",Seq[GenericTerm](vars("X"))))
+
+                         if (r0.result) {
+                             r0.bindings foreach { case (k, v) =>
+                            // vars += (k -> v.asInstanceOf[GenericTerm])
+                                      vars(k).bind_to(v)
+                             }
                              plan0(vars)
                              return
+                          }
+
                           // plan 0 end
 
 
@@ -294,9 +307,7 @@ package asl
 
                       def plan0(vars: VarMap)(implicit executionContext: ExecutionContext): Unit = {
 
-                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println( ( (vars("Self") + StringTerm(": pinged by "))  + vars("Source")) )))
-                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println( ( (vars("Self") + StringTerm(": ponging "))  + vars("Source")) )))
-                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => coms.inform(vars("Source"),StructTerm("pong",Seq[GenericTerm]()))))
+                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => coms.respond(StructTerm("at",Seq[GenericTerm](vars("X"))))))
 
 
                      }

@@ -1,14 +1,19 @@
+isHeadquarter(X):- at(X).
+
 !init.
 
 +!init =>
+
+    #println(Self + ": looking for target ");
     PongerAgentName = "ponger";
-    #println(Self + ": pinging " + PongerAgentName);
-    #coms.inform(PongerAgentName, ping).
+    #println(Self + ": asking about target " + PongerAgentName);
+    #coms.ask(PongerAgentName, at(X));
+    #println("question asked");
+    +at(X);
+    #println("at " +X);
+    #println("target"); 
+    !destroy_headquarters.
+    
 
-+pong => #println(Self + ": ponged by " + Source).
 
-
-
-
-
-
++!destroy_headquarters: isHeadquarter(X) => #println("Fire at "+X).

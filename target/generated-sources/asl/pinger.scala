@@ -41,8 +41,8 @@ package asl
                    case pinger.this.adopt_achievement_init_0 =>
                      pinger.this.adopt_achievement_init_0.execute(message.params.asInstanceOf[Parameters])
 
-                   case pinger.this.adopt_belief_pong_0 =>
-                     pinger.this.adopt_belief_pong_0.execute(message.params.asInstanceOf[Parameters])
+                   case pinger.this.adopt_achievement_destroy_headquarters_0 =>
+                     pinger.this.adopt_achievement_destroy_headquarters_0.execute(message.params.asInstanceOf[Parameters])
 
 
            case _ =>
@@ -77,6 +77,8 @@ package asl
          )
 
          def initBeliefs()(implicit executionContext: ExecutionContext) = List[StructTerm](
+                     StructTerm(":-",Seq[GenericTerm](StructTerm("isHeadquarter",Seq[GenericTerm](vars("X"))),StructTerm("at",Seq[GenericTerm](vars("X")))))
+
 
          )
 
@@ -239,18 +241,18 @@ package asl
                                    if(t.matchOnlyFunctorAndArity("init",0)) {
                                      val args: Parameters = Parameters(t.terms.toList)
                                      Option(SubGoalMessage(adopt_achievement_init_0, args, ref))
-                                   } else    {
+                                   } else  
+                                   if(t.matchOnlyFunctorAndArity("destroy_headquarters",0)) {
+                                     val args: Parameters = Parameters(t.terms.toList)
+                                     Option(SubGoalMessage(adopt_achievement_destroy_headquarters_0, args, ref))
+                                   } else   {
                     Option.empty[SubGoalMessage]
                     }
 
                 }
 
         override def create_belief_message(t: StructTerm, ref: IMessageSource) (implicit executionContext: ExecutionContext): Option[SubGoalMessage] = {
-                   
-                                   if(t.matchOnlyFunctorAndArity("pong",0)) {
-                                     val args: Parameters = Parameters(t.terms.toList)
-                                     Option(SubGoalMessage(adopt_belief_pong_0, args, ref))
-                                   } else   {
+                     {
                     Option.empty[SubGoalMessage]
                     }
 
@@ -304,9 +306,15 @@ package asl
 
                       def plan0(vars: VarMap)(implicit executionContext: ExecutionContext): Unit = {
 
+                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println( (vars("Self") + StringTerm(": looking for target ")) )))
                                            vars += ("PongerAgentName" -> StringTerm("ponger"))
-                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println( ( (vars("Self") + StringTerm(": pinging "))  + vars("PongerAgentName")) )))
-                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => coms.inform(vars("PongerAgentName"),StructTerm("ping",Seq[GenericTerm]()))))
+                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println( ( (vars("Self") + StringTerm(": asking about target "))  + vars("PongerAgentName")) )))
+                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => coms.ask(vars("PongerAgentName"),StructTerm("at",Seq[GenericTerm](vars("X"))))))
+                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println(StringTerm("question asked"))))
+                                           BeliefUpdateAction.execute(BeliefUpdateAction.Parameters("+", StructTerm("at",Seq[GenericTerm](vars("X")))),GoalParser)
+                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println( (StringTerm("at ") + vars("X")) )))
+                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println(StringTerm("target"))))
+                                          adopt_achievement_destroy_headquarters_0.execute(Parameters(List(  )))
 
 
                      }
@@ -314,7 +322,7 @@ package asl
 
       }
 
-      object adopt_belief_pong_0 extends IGoal {
+      object adopt_achievement_destroy_headquarters_0 extends IGoal {
 
         def execute(params: Parameters) (implicit executionContext: ExecutionContext) : Unit = {
          var vars = VarMap()
@@ -334,8 +342,17 @@ package asl
                          vars("Self").bind_to(StringTerm(executionContext.name))
                          vars("Source").bind_to(StringTerm(executionContext.src.name))
                          vars("Parent").bind_to(StringTerm(executionContext.parent.name))
+                         val r0 = executionContext.beliefBase.query(StructTerm("isHeadquarter",Seq[GenericTerm](vars("X"))))
+
+                         if (r0.result) {
+                             r0.bindings foreach { case (k, v) =>
+                            // vars += (k -> v.asInstanceOf[GenericTerm])
+                                      vars(k).bind_to(v)
+                             }
                              plan0(vars)
                              return
+                          }
+
                           // plan 0 end
 
 
@@ -346,7 +363,7 @@ package asl
 
                       def plan0(vars: VarMap)(implicit executionContext: ExecutionContext): Unit = {
 
-                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println( ( (vars("Self") + StringTerm(": ponged by "))  + vars("Source")) )))
+                                          PrimitiveAction.execute(PrimitiveAction.Parameters(() => println( (StringTerm("Fire at ") + vars("X")) )))
 
 
                      }

@@ -1,10 +1,6 @@
+location("building_Y").
 
-+ping =>
-    #println(Self + ": pinged by " + Source);
-    #println(Self + ": ponging " + Source);
-    #coms.inform(Source , pong).
-
-
++?at(X): location(X) => #coms.respond(at(X)).
 
 
 
