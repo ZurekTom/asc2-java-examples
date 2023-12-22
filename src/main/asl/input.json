@@ -1,13 +1,13 @@
 {
   "agents": [
     {
-      "name" : "pinger",
-      "script_file" : "pinger.asl",
+      "name" : "droneA",
+      "script_file" : "droneA.asl",
       "number": 1
     },
     {
-      "name" : "ponger",
-      "script_file" : "ponger.asl",
+      "name" : "droneB",
+      "script_file" : "droneB.asl",
       "number": 1
     }
   ]

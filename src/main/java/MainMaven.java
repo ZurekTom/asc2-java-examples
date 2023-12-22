@@ -17,8 +17,8 @@ public class MainMaven {
         system.tell(
                 AgentRequestMessage.apply(
                         toSeq(List.of(
-                                        new AgentRequest(asl.pinger_companion.create(), "pinger", 1),
-                                        new AgentRequest(asl.ponger_companion.create(), "ponger", 1)
+                                        new AgentRequest(asl.droneA_companion.create(), "droneA", 1),
+                                        new AgentRequest(asl.droneB_companion.create(), "droneB", 1)
                                 )
                         ),
                         system

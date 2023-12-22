@@ -5,9 +5,9 @@ isHeadquarter(X):- at(X).
 +!init =>
 
     #println(Self + ": looking for target ");
-    PongerAgentName = "ponger";
-    #println(Self + ": asking about target " + PongerAgentName);
-    #coms.ask(PongerAgentName, at(X));
+    DroneBAgentName = "droneB";
+    #println(Self + ": asking about target " + DroneBAgentName);
+    #coms.ask(DroneBAgentName, at(X));
     #println("question asked");
     +at(X);
     #println("at " +X);
