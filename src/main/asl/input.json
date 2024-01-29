@@ -1,8 +1,8 @@
 {
   "agents": [
     {
-      "name" : "droneA",
-      "script_file" : "droneA.asl",
+      "name" : "environment",
+      "script_file" : "environment.asl",
       "number": 1
     },
     {
@@ -10,5 +10,13 @@
       "script_file" : "droneB.asl",
       "number": 1
     }
+    {
+      "name" : "Artillery",
+      "script_file" : "artillery.asl",
+      "number": 1
+    }
+
+    
+    
   ]
 }
