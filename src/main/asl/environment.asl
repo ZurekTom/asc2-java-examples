@@ -1,21 +1,26 @@
 initial(1,1).
 battery(1,3.0).
+battery(3,2.0).
+battery(4,5.0).
+!init.
 
-+at(X,Y): not position(Z,T) =>
-    +position(X,Y).
 
-+at(X,Y): position(Z,T) =>
-    -position(Z,T);
-    +position(X,Y).
++!init =>
+    #coms.achieve("droneA", start);
+    #coms.achieve("droneB", start);
+    #coms.achieve("droneC", start).
+
++location(D,X,Y): not position(D, Z,T) =>
+    +position(C, X,Y).
+
++location(D,X,Y): position(D,Z,T) =>
+    -position(D, Z,T);
+    +position(D,X,Y).
     
-+?targeting(K,L): battery(K,L) =>
-        #println("radar received");
-        DroneBAgentName = "droneB";
-        #println("target report: " + K + ", " + L);
-        #coms.inform(DroneBAgentName, targeting(K,L)).
++?targeting(D,K,L): battery(K,L) =>
+        #println("target found at: " + K + ", " + L);
+        #coms.inform(D, targeting(D,K,L)).
 
 +fired(X,Y): battery(X,Y) =>
     #println("destroyed enemy battery located at: " + X + ", " + Y).
     
-%+antidronefire(X,Y): position(X,Y) =>
-    #println("drone destroyed ").

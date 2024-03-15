@@ -6,12 +6,27 @@
       "number": 1
     },
     {
+      "name" : "droneA",
+      "script_file" : "droneA.asl",
+      "number": 1
+    },
+    {
       "name" : "droneB",
       "script_file" : "droneB.asl",
       "number": 1
-    }
+    },
     {
-      "name" : "Artillery",
+      "name" : "droneC",
+      "script_file" : "droneC.asl",
+      "number": 1
+    },
+    {
+      "name" : "fighter",
+      "script_file" : "fighter.asl",
+      "number": 1
+    },
+    {
+      "name" : "artillery",
       "script_file" : "artillery.asl",
       "number": 1
     }

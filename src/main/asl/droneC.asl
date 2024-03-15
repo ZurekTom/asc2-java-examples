@@ -1,6 +1,6 @@
 around(Z,T):- at(X,Y) && X==Z && Y==T.
 
-initial(1,1).
+initial(4,1).
 
 
 +!start: initial(X,Y) =>
@@ -11,14 +11,15 @@ initial(1,1).
     !moveup();
     !radar();
     !moveup();
-    !radar();
-    !additionaltasks().
+    !moveup();
+    !moveup();
+    !radar().
 
 
 +antidronefire(X,Y): around(X,Y) =>
     +destroyed(true);
+    #coms.inform(droneB, attacked(Self));
     #coms.inform(droneA, attacked(Self));
-    #coms.inform(droneC, attacked(Self));
     #println("  drone " + Self + " kaput ").
 
 
@@ -53,7 +54,7 @@ initial(1,1).
     #coms.inform(environment,location(Self,X,Z));
     !whereIam(X,Z).
 
-+!moveright(): at(X,Y)  && Z is X + 1 && not destroyed(true) =>
++!moveright(X,Y): at(X,Y)  && Z is X + 1 && not destroyed(true) =>
     #println(Self + " moving right");
     -at(X,Y);
     +at(Z,X);
@@ -67,15 +68,15 @@ initial(1,1).
     #println("target is " + X + ", " + Y);
     +targetposition(X,Y);
     #coms.inform(artillery, targetposition(X,Y)).
-
 +attacked(X): not destroyed(true) =>
     #println(Self + " received info about destruction of " + X);
     +problems(X).
 
-+!additionaltasks(): not destroyed(true) && problems(droneA) =>
++!additionaltasks(): not destroyed(true) && problems(droneA)=>
     #println(self + " is going to replace droneA ");
-    !moveright();
-    !moveright();
-    !radar().
-
+    !movedown();
+    !movedown();
+    !moveleft();
+    !radar();
+    !movedown().
 
